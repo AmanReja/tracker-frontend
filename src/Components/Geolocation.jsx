@@ -64,6 +64,7 @@ const Geolocation = () => {
           zoom={13}
           style={{ height: "500px", width: "100%" }}
         >
+          <Circle radius={100} color="blue"></Circle>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {/* Show all active users' markers */}
