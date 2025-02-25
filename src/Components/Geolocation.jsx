@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { io } from "socket.io-client";
@@ -69,7 +69,17 @@ const Geolocation = () => {
           zoom={13}
           style={{ height: "500px", width: "100%" }}
         >
-          <Marker position={location}></Marker>
+          {" "}
+          <Circle
+            center={[location.lat, location.lon]} // The center of the circle
+            radius={1000} // Radius in meters, adjust as needed
+            pathOptions={{
+              color: "blue", // Circle border color
+              fillColor: "blue", // Fill color
+              fillOpacity: 0.3 // Fill opacity
+            }}
+          />
+          <Marker position={location} icon={customIcon}></Marker>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         </MapContainer>
       ) : (
