@@ -69,7 +69,7 @@ const Geolocation = () => {
           zoom={13}
           style={{ height: "500px", width: "100%" }}
         >
-          <Marker position={position}></Marker>
+          <Marker position={location}></Marker>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         </MapContainer>
       ) : (
