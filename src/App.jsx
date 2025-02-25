@@ -14,7 +14,6 @@ const App = () => {
       setMessage(message);
     });
 
-    // Cleanup socket connection on component unmount
     return () => {
       socketIo.disconnect();
     };
@@ -23,7 +22,7 @@ const App = () => {
   return (
     <>
       <h1>Socket.IO MAP</h1>
-      {message && <p>{message}</p>} {/* Display message from backend */}
+      {message && <p>{message}</p>}
       <Geolocation></Geolocation>
     </>
   );

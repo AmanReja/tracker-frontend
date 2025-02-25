@@ -4,7 +4,6 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { io } from "socket.io-client";
 
-// Fix default marker issue in Leaflet
 const customIcon = new L.Icon({
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
@@ -31,7 +30,6 @@ const Geolocation = () => {
           };
           setLocation(newLocation);
 
-          // Emit the geolocation to the server
           socket.emit("geolocation", newLocation);
         },
         (error) => {
@@ -47,12 +45,10 @@ const Geolocation = () => {
       setError("Geolocation is not supported by this browser.");
     }
 
-    // Optional: Listen for server responses or updates (e.g., location updates)
     socket.on("location-update", (data) => {
       console.log("Location update from server:", data);
     });
 
-    // Cleanup on component unmount
     return () => {
       socket.off("location-update");
     };
@@ -71,12 +67,12 @@ const Geolocation = () => {
         >
           {" "}
           <Circle
-            center={[location.lat, location.lon]} // The center of the circle
-            radius={1000} // Radius in meters, adjust as needed
+            center={[location.lat, location.lon]}
+            radius={1000}
             pathOptions={{
-              color: "blue", // Circle border color
-              fillColor: "blue", // Fill color
-              fillOpacity: 0.3 // Fill opacity
+              color: "blue",
+              fillColor: "blue",
+              fillOpacity: 0.3
             }}
           />
           <Marker position={location} icon={customIcon}></Marker>
