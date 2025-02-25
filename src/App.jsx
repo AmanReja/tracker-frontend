@@ -6,7 +6,7 @@ const App = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketIo = io("https://tracker-backend-h5yl.onrender.com");
+    const socketIo = io("https://tracker-backend-ztt5.onrender.com");
 
     setSocket(socketIo);
 

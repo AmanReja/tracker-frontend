@@ -15,7 +15,7 @@ const customIcon = new L.Icon({
 
 const position = [22.683649, 88.651443];
 
-const socket = io("https://tracker-backend-h5yl.onrender.com"); // Connect to your server
+const socket = io("https://tracker-backend-ztt5.onrender.com"); // Connect to your server
 
 const Geolocation = () => {
   const [location, setLocation] = useState(null);
