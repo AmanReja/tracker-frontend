@@ -64,7 +64,15 @@ const Geolocation = () => {
           zoom={13}
           style={{ height: "500px", width: "100%" }}
         >
-          <Circle radius={100} color="blue"></Circle>
+          <Circle
+            center={[loc.lat, loc.lng]}
+            radius={500} // Adjust radius (in meters)
+            pathOptions={{
+              color: "blue",
+              fillColor: "blue",
+              fillOpacity: 0.2 // Adjust transparency
+            }}
+          />
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {/* Show all active users' markers */}
