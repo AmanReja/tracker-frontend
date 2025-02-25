@@ -12,11 +12,12 @@ const customIcon = new L.Icon({
   popupAnchor: [1, -34]
 });
 
+const position = [22.683649, 88.651443];
+
 const socket = io("https://tracker-backend-ztt5.onrender.com"); // Connect to your server
 
 const Geolocation = () => {
   const [location, setLocation] = useState(null);
-  const [allLocations, setAllLocations] = useState({}); // Store all users' locations
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Geolocation = () => {
             lon: position.coords.longitude
           };
           setLocation(newLocation);
+
           socket.emit("geolocation", newLocation);
         },
         (error) => {
@@ -43,10 +45,13 @@ const Geolocation = () => {
       setError("Geolocation is not supported by this browser.");
     }
 
-    socket.on("location-update", (data) => {
+    socket.on("receive-location", (data) => {
       console.log("Location update from server:", data);
-      setAllLocations(data); // Update all users' locations
     });
+
+    // socket.on("receive-location", (data) => {
+    //   const { id, lat, log } = data;
+    // });
 
     return () => {
       socket.off("location-update");
@@ -55,7 +60,7 @@ const Geolocation = () => {
 
   return (
     <div style={{ height: "100vh" }}>
-      <h2>📍 Active Users' Locations</h2>
+      <h2>📍 Your Current Location</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {location ? (
@@ -64,13 +69,18 @@ const Geolocation = () => {
           zoom={13}
           style={{ height: "500px", width: "100%" }}
         >
+          {" "}
+          <Circle
+            center={[location.lat, location.lon]}
+            radius={1000}
+            pathOptions={{
+              color: "blue",
+              fillColor: "blue",
+              fillOpacity: 0.3
+            }}
+          />
+          <Marker position={location} icon={customIcon}></Marker>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-          {Object.entries(allLocations).map(([id, loc]) => (
-            <Marker key={id} position={[loc.lat, loc.lon]} icon={customIcon}>
-              <Popup>User: {id}</Popup>
-            </Marker>
-          ))}
         </MapContainer>
       ) : (
         <p>Loading your location...</p>
