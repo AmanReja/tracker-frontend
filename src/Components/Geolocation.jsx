@@ -12,7 +12,7 @@ const customIcon = new L.Icon({
   popupAnchor: [1, -34]
 });
 
-const socket = io("https://tracker-backend-ztt5.onrender.com"); // Backend URL
+const socket = io("https://tracker-backend-ztt5.onrender.com"); // Your backend URL
 
 const Geolocation = () => {
   const [location, setLocation] = useState(null);
@@ -25,7 +25,7 @@ const Geolocation = () => {
         (position) => {
           const newLocation = {
             lat: position.coords.latitude,
-            lon: position.coords.longitude
+            lng: position.coords.longitude // 🔥 FIXED: "lon" → "lng"
           };
           setLocation(newLocation);
           socket.emit("geolocation", newLocation);
@@ -60,26 +60,28 @@ const Geolocation = () => {
 
       {location ? (
         <MapContainer
-          center={[location.lat, location.lon]}
-          zoom={13}
+          center={[location.lat, location.lng]} // 🔥 FIXED: "lon" → "lng"
+          zoom={10} // Adjust zoom to see all markers
           style={{ height: "500px", width: "100%" }}
         >
-          <Circle
-            center={[loc.lat, loc.lng]}
-            radius={500} // Adjust radius (in meters)
-            pathOptions={{
-              color: "blue",
-              fillColor: "blue",
-              fillOpacity: 0.2 // Adjust transparency
-            }}
-          />
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-          {/* Show all active users' markers */}
+          {/* Show all active users' markers with a blue circle */}
           {Object.entries(allLocations).map(([id, loc]) => (
-            <Marker key={id} position={[loc.lat, loc.lon]} icon={customIcon}>
-              <Popup>User: {id}</Popup>
-            </Marker>
+            <React.Fragment key={id}>
+              <Marker position={[loc.lat, loc.lng]} icon={customIcon}>
+                <Popup>User: {id}</Popup>
+              </Marker>
+              <Circle
+                center={[loc.lat, loc.lng]}
+                radius={500} // Adjust radius (in meters)
+                pathOptions={{
+                  color: "blue",
+                  fillColor: "blue",
+                  fillOpacity: 0.2 // Adjust transparency
+                }}
+              />
+            </React.Fragment>
           ))}
         </MapContainer>
       ) : (
