@@ -12,7 +12,7 @@ const customIcon = new L.Icon({
   popupAnchor: [1, -34]
 });
 
-const socket = io("https://tracker-backend-1-l7gv.onrender.com");
+const socket = io("https://tracker-backend-ztt5.onrender.com");
 
 const Geolocation = () => {
   const [location, setLocation] = useState(null);
